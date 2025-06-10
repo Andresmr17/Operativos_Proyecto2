@@ -68,8 +68,6 @@ void countWords(char *buffer, char words[][WORD_LENGTH], int counts[]) {
     }
 }
 
-
-
 void splitFileForProcesses(const char *filename, char ***buffers, int **buffer_sizes, int num_processes) {
     FILE *file = fopen(filename, "r");
     if (!file) {
