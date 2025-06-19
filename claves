@@ -25,3 +25,28 @@
 } ;
 
 #include "../Encrypt/encrypt.h"
+
+Me sirve para ver los prints del driver desde el kernel
+sudo dmesg | tail -n 20
+
+Con esto reviso si el driver esta cargado en el kernel
+lsmod | grep usb_driver_arduino
+
+Con esto lo descargo
+sudo rmmod usb_driver_arduino
+
+Con esto cargo el driver
+sudo insmod usb_driver_arduino.ko
+
+Con esto verifico que existe el dispositivo
+ls -l /dev/proyecto_arduino_usb
+
+Con esto le envio algo desde terminal para probarlo
+echo "l" > /dev/proyecto_arduino_usb
+
+este es el usb del arduino
+Bus 005 Device 002: ID 1a86:7523 QinHeng Electronics CH340 serial converter
+
+con esto lo pruebo todo
+mpirun -np 5 ./programa test_input2
+

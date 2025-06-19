@@ -4,7 +4,7 @@
 #include <string.h>
 #include <mpi.h>
 #include "../Encrypt/encrypt.h"
-#include "gpio_control.h"
+#include "uart_control.h"
 #include "procesamiento.h"
 
 void run_server(unsigned char *alicesk, unsigned char *bobpk) {
@@ -45,11 +45,12 @@ void run_server(unsigned char *alicesk, unsigned char *bobpk) {
     findMostFrequent(global_words, global_counts, most_frequent, &max_count);
 
     printf("[Servidor] Palabra más frecuente: '%s' (%d veces)\n", most_frequent, max_count);
-    gpio_init();
-    gpio_write_string(most_frequent);
-    gpio_write_char(' ');
+    uart_control_init();
+    uart_control_write_string(most_frequent);
+    uart_control_write_char(' ');
     char count_str[10];
     sprintf(count_str, "%d", max_count);
-    gpio_write_string(count_str);
-    gpio_signal_done();
+    uart_control_write_string(count_str);
+    uart_control_signal_done();
+    uart_control_close();
 }

@@ -4,7 +4,7 @@
 #include <mpi.h>
 #include <string.h>
 #include "encrypt.h"
-#include "gpio_control.h"
+#include "uart_control.h"
 
 void run_client(const char *filename, unsigned char *bobsk, unsigned char *alicepk);
 void run_server(int num_processes, unsigned char *alicesk, unsigned char *bobpk);

@@ -1,2 +1,0 @@
-gcc -o serial_arduino main.c serial_arduino.c
-./serial_arduino

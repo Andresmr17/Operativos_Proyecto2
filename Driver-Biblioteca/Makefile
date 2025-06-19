@@ -1,23 +1,25 @@
-# --- Compilación del driver del kernel ---
-obj-m += driver_ACM.o
-
+# Kernel module part
+obj-m += usb_driver_arduino.o
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD  := $(shell pwd)
 
-.PHONY: all driver lib clean
+# Library part
+LIB_NAME = libuart.a
+LIB_SRC  = uart_interface.c ../MPI/uart_control.c
+LIB_OBJ  = $(LIB_SRC:.c=.o)
 
+# Targets
 all: driver lib
 
 driver:
-	make -C $(KDIR) M=$(PWD) modules
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
 
-# --- Compilación de biblioteca .a ---
-lib: gpio_interface.o
-	ar rcs libgpio.a gpio_interface.o
+lib: $(LIB_OBJ)
+	ar rcs $(LIB_NAME) $(LIB_OBJ)
 
-gpio_interface.o: gpio_interface.c gpio_interface.h
-	gcc -Wall -O2 -c gpio_interface.c -o gpio_interface.o
+%.o: %.c
+	gcc -Wall -O2 -c $< -o $@
 
 clean:
-	make -C $(KDIR) M=$(PWD) clean
-	rm -f *.o *.a *.ko *.mod.* Module.symvers modules.order
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
+	rm -f *.o *.ko *.mod.* modules.order Module.symvers $(LIB_NAME)

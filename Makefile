@@ -1,13 +1,13 @@
 CC = mpicc
-CFLAGS = -Wall -O2 -IEncrypt -IMPI
-LDFLAGS = -lcrypto
+CFLAGS = -Wall -O2 -IEncrypt -IMPI -IDriver-Biblioteca
+LDFLAGS = -L. -lcrypto -LDriver-Biblioteca -luart
 
+# Solo los .c que pertenecen a tu lógica MPI y cifrado
 SRC = MPI/main.c \
-	  MPI/procesamiento.c \
       MPI/client.c \
       MPI/server.c \
       MPI/nodo.c \
-      MPI/gpio_control.c \
+      MPI/procesamiento.c \
       Encrypt/encrypt.c
 
 OBJ = $(SRC:.c=.o)
@@ -20,10 +20,6 @@ $(TARGET): $(OBJ)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
-setup:
-	sudo apt update
-	sudo apt install -y openmpi-bin libopenmpi-dev libssl-dev
 
 clean:
 	rm -f $(OBJ) $(TARGET)
